@@ -22,6 +22,12 @@ antd的组件，通过[Bi Sheng](https://github.com/benjycui/bisheng)这个开�
 npm start
 ```
 
+所以需要注意的是，antd根目录下的`webpack.config.js`是属于`Bi Sheng`项目所要求的webpack规范
+
+并且，antd使用了[antd-tools](https://github.com/ant-design/antd-tools)来构建工程，打包发布等流程结合了gulp+webpack功能，默认的webpack配置是包含在antd-tools的代码中的。
+
+在常规开发中，不需要调整根目录下的`webpack.config.js`。
+
 ## 组件编写
 
 在 components 文件夹下新建一个文件夹并以组件的名字命名，目录结构如下：
@@ -93,4 +99,17 @@ ReactDOM.render(<Container />, mountNode);
 //````
 ```
 
+
 ## 版本发布
+
+### 发布流程
+
+antd项目发布前有一系列预处理和规范检测，基于[gulp task](https://github.com/ant-design/antd-tools/blob/master/lib/gulpfile.js)，具体流程如下：
+
+1. check-git：检测是否有未提交的文件，保证git工作区的干净
+2. compile：编译less、静态资源文件以及项目源代码（将ts代码编译为es2015）
+3. dist：编译es2015代码为es5代码，并且进行压缩等操作
+4. pre-publish
+5. npm publish
+6. git tag
+7. github release![]()
