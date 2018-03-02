@@ -45,6 +45,10 @@ npm start
 
 组件编写完成后在 components/index.tsx 文件里边把新加的组件 import 进来就可以了。
 
+### 代码规范
+
+每次编写组件后，需要使用`npm run lint`来检测是否符合代码规范。
+
 ## 文档编写
 
 ### 文档入口文件格式
@@ -102,14 +106,33 @@ ReactDOM.render(<Container />, mountNode);
 
 ## 版本发布
 
-### 发布流程
+### 自动化工具发布细节
 
-antd项目发布前有一系列预处理和规范检测，基于[gulp task](https://github.com/ant-design/antd-tools/blob/master/lib/gulpfile.js)，具体流程如下：
+antd项目发布前有一系列预处理和规范检测，基于[gulp task](https://github.com/ant-design/antd-tools/blob/master/lib/gulpfile.js)，自动化工具的具体流程如下：
 
 1. check-git：检测是否有未提交的文件，保证git工作区的干净
-2. compile：编译less、静态资源文件以及项目源代码（将ts代码编译为es2015）
-3. dist：编译es2015代码为es5代码，并且进行压缩等操作
-4. pre-publish
-5. npm publish
-6. git tag
-7. github release![]()
+2. dist：编译es2015代码为es5代码，并且进行压缩等操作
+3. pre-publish：运行代码规范检测，运行测试代码
+4. npm tag： 
+5. tag：从package.json中读出版本号，执行git tag命令
+6. github release![]()
+
+### 发布流程
+
+1. 确定所有的代码均已提交
+2. 确定影响范围，是否有影响用户使用方式的改动，是否有严重的bug修复，均要添加在`CHANGELOG_SUNNY_LAB.md`中，为了方便跟进ant-design版本，不要修改ant-design本身的`CHANGELOG.md`
+3. 修改`package.json`中的版本号，按照语义化进行修改
+4. 提交本次修改
+5. 在项目根目录下执行
+
+    ```shell
+    npm run pub
+    ```
+6. 发布网站，执行命令
+
+   ```shell
+   rm -rf node_modules && npm i
+   npm run deploy
+   ```
+
+
